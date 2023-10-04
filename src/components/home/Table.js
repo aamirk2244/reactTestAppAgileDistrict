@@ -1,6 +1,4 @@
-import { useState } from "react";
-
-function Table(props) {
+const Table = (props) => {
   const data = props.users.data;
 
   return (
@@ -17,24 +15,16 @@ function Table(props) {
         {data.map((user) => (
           <tr key={user.id}>
             <td>{user.id}</td>
+            <td>{user.name}</td>
+            <td>{user.age}</td>
             <td>
-              <input
-                value={user.name}
+              <button
                 id={user.id}
-                onChange={(e) => props.updateUserName(e)}
-                className="form-control"
-              />
-            </td>
-            <td>
-              <input
-                value={user.age}
-                id={user.id}
-                onChange={(e) => props.updateUserAge(e)}
-                className="form-control"
-              />
-            </td>
-            <td>
-              <button className="btn btn-primary">Edit</button>
+                className="btn btn-primary m-1"
+                onClick={(e) => props.editUser(e)}
+              >
+                Edit
+              </button>
               <button
                 id={user.id}
                 className="btn btn-danger"
@@ -48,6 +38,6 @@ function Table(props) {
       </tbody>
     </table>
   );
-}
+};
 
 export default Table;
