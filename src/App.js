@@ -1,99 +1,30 @@
 // import logo from "./logo.svg";
+import React from "react";
+
 import "./App.css";
-import { useState } from "react";
 // import SampleOutput from "./components/SampleOutput";
-import Table from "./components/home/Table";
-import Input from "./components/Input";
-// import Button1 from "./components/home/Button1";
-// import Button2 from "./components/home/Button2";
-// import Button3 from "./components/home/Button3";
+import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+import Home from "./components/pages/Home";
+import HeadNav from "./components/HeadNav";
+import About from "./components/pages/About";
+import ButtonExercise from "./components/pages/ButtonExercise";
+import { useEffect } from "react";
 
 function App() {
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
-  const [id, setId] = useState(0);
-  const [users, setUsers] = useState({
-    data: [],
-  });
-  // const users = { data: [{ id: 0, name: "test", age: "test age" }] };
-
-  const showDataInTable = (e) => {
-    e.preventDefault();
-    setId(id + 1);
-    setUsers({ data: [...users.data, { id, name, age }] });
-    setAge("");
-    setName("");
-  };
-
-  const removeUser = (e) => {
-    const userId = e.target.id;
-    const updatedUsers = users.data.filter((user) => user.id != userId);
-    setUsers({ data: updatedUsers });
-  };
-
-  const updateUserAge = (e) => {
-    const userToEdit = users.data.findIndex(
-      (user) => user.id === parseInt(e.target.id)
-    );
-    users.data[userToEdit].age = e.target.value;
-
-    setUsers({ data: [...users.data] });
-  };
-
-  const updateUserName = (e) => {
-    const userToEdit = users.data.findIndex(
-      (user) => user.id === parseInt(e.target.id)
-    );
-    users.data[userToEdit].name = e.target.value;
-
-    setUsers({ data: [...users.data] });
-  };
-
+  // useEffect(() => {
+  //   console.log("hello App.js Component");
+  // }, []);
   return (
-    <div className="App">
-      <div className="card d-flex text-center">
-        <div className="card-header">Aamir Test Form</div>
-        <div className="card-body">
-          <h5 className="card-title"></h5>
-          <div className="card-text">
-            <form onSubmit={(e) => showDataInTable(e)}>
-              <div className="form-group">
-                <label>Name</label>
-                <Input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter Your Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-              <div className="form-group">
-                <label>Age</label>
-                <Input
-                  className="form-control"
-                  type="number"
-                  placeholder="Enter Your Age"
-                  value={age}
-                  onChange={(e) => setAge(e.target.value)}
-                />
-              </div>
-              <div className="form-group">
-                <button className="btn btn-primary">Add</button>
-              </div>
-            </form>
-          </div>
-        </div>
+    <BrowserRouter>
+      <div className="App">
+        <HeadNav />
+        <Routes>
+          <Route path="/" element={<Home />} exact />
+          <Route path="/about" element={<About />} exact />
+          <Route path="/button-example" element={<ButtonExercise />} exact />
+        </Routes>
       </div>
-
-      <div className="display-data">
-        <Table
-          users={users}
-          removeUser={removeUser}
-          updateUserAge={updateUserAge}
-          updateUserName={updateUserName}
-        />
-      </div>
-    </div>
+    </BrowserRouter>
   );
 }
 
