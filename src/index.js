@@ -1,13 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import ErrorBoundary from "./components/shared/error_boundary";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
+function reload() {
+  console.log("hello world reloading");
+}
 root.render(
   <React.StrictMode>
-    <App />
+    <ErrorBoundary onRecovery={reload}>
+      <App />
+    </ErrorBoundary>
   </React.StrictMode>
 );
 

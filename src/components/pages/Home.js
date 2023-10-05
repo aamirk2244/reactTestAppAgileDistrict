@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useRef } from "react";
 import Table from "../home/Table";
 import Input from "../Input";
 import { useState, useEffect } from "react";
 
 const Home = () => {
   const [name, setName] = useState("");
+  const inputNameRef = useRef(null);
+  const inputAgeRef = useRef(null);
+
   const [isUpdate, setIsUpdate] = useState(0);
   const [age, setAge] = useState("");
   const [id, setId] = useState(1);
@@ -18,14 +21,28 @@ const Home = () => {
     const editingUser = users.data.find((user) => user.id === userToUpdate);
     editingUser.name = name;
     editingUser.age = age;
-    const allUsers = [...users.data];
-
-    setUsers({ data: [...allUsers] });
     setIsUpdate(false);
     clearInputs();
   };
+
+  const checkEmptyInput = () => {
+    if (inputNameRef.current.value.length === 0) {
+      inputNameRef.current.focus();
+      return true;
+    } else if (inputAgeRef.current.value.length === 0) {
+      inputAgeRef.current.focus();
+      return true;
+    }
+
+    return false;
+  };
+
   const showDataInTable = (e) => {
     e.preventDefault();
+
+    if (checkEmptyInput()) {
+      return;
+    }
     setId(id + 1);
     setUsers({ data: [...users.data, { id, name, age }] });
     clearInputs();
@@ -78,6 +95,7 @@ const Home = () => {
               className="form-control"
               placeholder="Enter Your Name"
               value={name}
+              inputRef={inputNameRef}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
@@ -88,6 +106,7 @@ const Home = () => {
               type="number"
               placeholder="Enter Your Age"
               value={age}
+              inputRef={inputAgeRef}
               onChange={(e) => setAge(e.target.value)}
             />
           </div>
