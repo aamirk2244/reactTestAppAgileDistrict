@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import "./Home.css";
 import Table from "../home/Table";
 import Input from "../Input";
 import { useState, useEffect } from "react";
@@ -14,15 +15,34 @@ const Home = () => {
   const [users, setUsers] = useState({
     data: [],
   });
-  // const users = { data: [{ id: 0, name: "test", age: "test age" }] };
+  // const users = { data: [{ id: 0, name: "test", age: "test age", isSelected: false }] };
 
   const updateUser = () => {
+    console.log("updateUser .........");
     const userToUpdate = isUpdate;
     const editingUser = users.data.find((user) => user.id === userToUpdate);
     editingUser.name = name;
     editingUser.age = age;
+    setUsers({ ...users });
     setIsUpdate(false);
     clearInputs();
+  };
+
+  const removeSelectionFromUsers = (userList) => {
+    userList.forEach((user) => {
+      user.isSelected = false;
+    });
+  };
+
+  const removeSelectionFromAllUsers = () => {
+    users.data.forEach((user) => {
+      user.isSelected = false;
+    });
+  };
+
+  const addSelectionToUser = (user) => {
+    user.isSelected = true;
+    // setUsers({ ...users });
   };
 
   const checkEmptyInput = () => {
@@ -44,7 +64,7 @@ const Home = () => {
       return;
     }
     setId(id + 1);
-    setUsers({ data: [...users.data, { id, name, age }] });
+    setUsers({ data: [...users.data, { id, name, age, isSelected: false }] });
     clearInputs();
   };
 
@@ -75,57 +95,69 @@ const Home = () => {
   };
 
   return (
-    <div className="Home">
-      <div className="card d-flex text-center">
-        <div className="card-header">Aamir Test Form</div>
-        <div className="card-body">
-          <h5 className="card-title"></h5>
-          <div className="card-text"></div>
-        </div>
-      </div>
-
-      <form
-        onSubmit={(e) => (isUpdate ? updateUserInTable(e) : showDataInTable(e))}
-      >
-        <div className="d-flex flex-column align-items-center mt-3">
-          <div className="mb-3 d-flex">
-            <label className="form-label mt-1 me-2">Name:</label>
-            <Input
-              type="text"
-              className="form-control"
-              placeholder="Enter Your Name"
-              value={name}
-              inputRef={inputNameRef}
-              onChange={(e) => setName(e.target.value)}
-            />
+    <>
+      <section className="bgimage">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <h5>Hello, Aamir! Welcome to React Practice</h5>
+              <div>
+                <form
+                  onSubmit={(e) =>
+                    isUpdate ? updateUserInTable(e) : showDataInTable(e)
+                  }
+                >
+                  <div className="card">
+                    <div className="card-body">
+                      <h4 className="card-title text-center">
+                        User Age Example
+                      </h4>
+                      <div className="d-flex flex-column">
+                        <label className="form-label">Name:</label>
+                        <Input
+                          type="text"
+                          className="form-control"
+                          placeholder="Enter Your Name"
+                          value={name}
+                          inputRef={inputNameRef}
+                          onChange={(e) => setName(e.target.value)}
+                        />
+                        <label className="form-label mt-2">Age:</label>
+                        <div className="me-3 age-input">
+                          <Input
+                            className="form-control ms-3"
+                            type="number"
+                            placeholder="Enter Your Age"
+                            value={age}
+                            inputRef={inputAgeRef}
+                            onChange={(e) => setAge(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <button className="btn btn-primary form-control mt-5">
+                        {isUpdate ? "Save" : "Add"}
+                      </button>
+                    </div>
+                    <div className="card-footer text-muted"></div>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
-          <div className="mb-3 d-flex">
-            <label className="form-label ms-0 mt-1 me-2">Age:</label>
-            <Input
-              className="form-control ms-3"
-              type="number"
-              placeholder="Enter Your Age"
-              value={age}
-              inputRef={inputAgeRef}
-              onChange={(e) => setAge(e.target.value)}
-            />
-          </div>
-          <button className="btn btn-primary">
-            {isUpdate ? "Save" : "Add"}
-          </button>
         </div>
-      </form>
+      </section>
 
-      <div className="display-data">
-        {users.data.length != 0 && (
-          <Table
-            users={users}
-            removeUser={removeUser}
-            editUser={populateInputForEdit}
-          />
-        )}
-      </div>
-    </div>
+      {users.data.length != 0 && (
+        <Table
+          users={users}
+          removeUser={removeUser}
+          editUser={populateInputForEdit}
+          removeSelectionFromUsers={removeSelectionFromUsers}
+          addSelectionToUser={addSelectionToUser}
+          removeSelectionFromAllUsers={removeSelectionFromAllUsers}
+        />
+      )}
+    </>
   );
 };
 
