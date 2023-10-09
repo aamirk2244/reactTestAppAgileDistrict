@@ -1,6 +1,6 @@
 .bgimage {
   width: 100%;
-  height: 500px;
+  height: 336px;
   background: url("https://images.unsplash.com/photo-1438109491414-7198515b166b?q=80&fm=jpg&s=cbdabf7a79c087a0b060670a6d79726c");
   background-repeat: no-repeat;
   background-position: center;
@@ -27,6 +27,17 @@
 }
 
 .table {
-  position: absolute;
   text-align: center;
+}
+
+.myhome {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-table {
+  position: absolute;
+  width: 50%;
+  left: 25%;
+  margin-top: 90px;
 }

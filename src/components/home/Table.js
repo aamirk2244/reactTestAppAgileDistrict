@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 const Table = (props) => {
   const data = props.users.data;
   const [counter, setCounter] = useState(0);
-
+  console.log("counter ... ", counter);
   const handleExceedChecksLimit = (id) => {
     props.removeSelectionFromUsers();
 
@@ -64,60 +64,68 @@ const Table = (props) => {
     alert(msg);
   };
   return (
-    <table className="table table-hover table-dark">
-      <thead>
-        <tr>
-          <th>
-            <button
-              className="btn btn-secondary"
-              onClick={(e) => findGreaterByAge()}
-            >
-              Compare Ages
-            </button>
-          </th>
-          <th scope="col">ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Age</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((user) => (
-          <tr key={user.id}>
-            <td>
-              <input
-                className="form-check-input mt-0"
-                type="checkbox"
-                checked={user.isSelected}
-                id={user.id}
-                value={user.id}
-                onChange={(e) => handleSelection(e)}
-                aria-label="Checkbox for following text input"
-              />
-            </td>
-            <td>{user.id}</td>
-            <td>{user.name}</td>
-            <td>{user.age}</td>
-            <td>
-              <button
-                id={user.id}
-                className="btn btn-primary m-1"
-                onClick={(e) => props.editUser(e)}
-              >
-                Edit
-              </button>
-              <button
-                id={user.id}
-                className="btn btn-danger"
-                onClick={(e) => props.removeUser(e)}
-              >
-                Delete
-              </button>
-            </td>
+    <div className="table-wrap">
+      <table className="table table-hover table-dark">
+        <thead>
+          <tr>
+            <th>
+              <div>
+                {counter === 2 ? (
+                  <button
+                    className="btn btn-secondary"
+                    onClick={(e) => findGreaterByAge()}
+                  >
+                    Compare Ages
+                  </button>
+                ) : (
+                  "Age Comparison"
+                )}
+              </div>
+            </th>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Age</th>
+            <th scope="col">Actions</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {data.map((user) => (
+            <tr key={user.id}>
+              <td>
+                <input
+                  className="form-check-input mt-0"
+                  type="checkbox"
+                  checked={user.isSelected}
+                  id={user.id}
+                  value={user.id}
+                  onChange={(e) => handleSelection(e)}
+                  aria-label="Checkbox for following text input"
+                />
+              </td>
+              <td>{user.id}</td>
+              <td>{user.name}</td>
+              <td>{user.age}</td>
+              <td>
+                <button
+                  id={user.id}
+                  className="btn btn-primary m-1"
+                  onClick={(e) => props.editUser(e)}
+                >
+                  Edit
+                </button>
+                <button
+                  id={user.id}
+                  className="btn btn-danger"
+                  onClick={(e) => props.removeUser(e)}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

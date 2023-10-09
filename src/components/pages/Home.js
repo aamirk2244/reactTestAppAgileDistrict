@@ -18,7 +18,6 @@ const Home = () => {
   // const users = { data: [{ id: 0, name: "test", age: "test age", isSelected: false }] };
 
   const updateUser = () => {
-    console.log("updateUser .........");
     const userToUpdate = isUpdate;
     const editingUser = users.data.find((user) => user.id === userToUpdate);
     editingUser.name = name;
@@ -95,69 +94,74 @@ const Home = () => {
   };
 
   return (
-    <>
-      <section className="bgimage">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <h5>Hello, Aamir! Welcome to React Practice</h5>
-              <div>
-                <form
-                  onSubmit={(e) =>
-                    isUpdate ? updateUserInTable(e) : showDataInTable(e)
-                  }
-                >
-                  <div className="card">
-                    <div className="card-body">
-                      <h4 className="card-title text-center">
-                        User Age Example
-                      </h4>
-                      <div className="d-flex flex-column">
-                        <label className="form-label">Name:</label>
-                        <Input
-                          type="text"
-                          className="form-control"
-                          placeholder="Enter Your Name"
-                          value={name}
-                          inputRef={inputNameRef}
-                          onChange={(e) => setName(e.target.value)}
-                        />
-                        <label className="form-label mt-2">Age:</label>
-                        <div className="me-3 age-input">
+    <div className="my-home d-flex flex-column">
+      <div className="myhome-card-section">
+        <section className="bgimage">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h5>Hello, Aamir! Welcome to React Practice</h5>
+                <div>
+                  <form
+                    onSubmit={(e) =>
+                      isUpdate ? updateUserInTable(e) : showDataInTable(e)
+                    }
+                  >
+                    <div className="card">
+                      <div className="card-body">
+                        <h4 className="card-title text-center">
+                          User Age Example
+                        </h4>
+                        <div className="d-flex flex-column">
+                          <label className="form-label">Name:</label>
                           <Input
-                            className="form-control ms-3"
-                            type="number"
-                            placeholder="Enter Your Age"
-                            value={age}
-                            inputRef={inputAgeRef}
-                            onChange={(e) => setAge(e.target.value)}
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter Your Name"
+                            value={name}
+                            inputRef={inputNameRef}
+                            onChange={(e) => setName(e.target.value)}
                           />
+                          <label className="form-label mt-2">Age:</label>
+                          <div className="me-3 age-input">
+                            <Input
+                              className="form-control ms-3"
+                              type="number"
+                              placeholder="Enter Your Age"
+                              value={age}
+                              inputRef={inputAgeRef}
+                              onChange={(e) => setAge(e.target.value)}
+                            />
+                          </div>
                         </div>
+                        <button className="btn btn-primary form-control mt-5">
+                          {isUpdate ? "Save" : "Add"}
+                        </button>
                       </div>
-                      <button className="btn btn-primary form-control mt-5">
-                        {isUpdate ? "Save" : "Add"}
-                      </button>
+                      <div className="card-footer text-muted"></div>
                     </div>
-                    <div className="card-footer text-muted"></div>
-                  </div>
-                </form>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
+        </section>
+      </div>
+      <div>
+        <div className="home-table">
+          {users.data.length != 0 && (
+            <Table
+              users={users}
+              removeUser={removeUser}
+              editUser={populateInputForEdit}
+              removeSelectionFromUsers={removeSelectionFromUsers}
+              addSelectionToUser={addSelectionToUser}
+              removeSelectionFromAllUsers={removeSelectionFromAllUsers}
+            />
+          )}
         </div>
-      </section>
-
-      {users.data.length != 0 && (
-        <Table
-          users={users}
-          removeUser={removeUser}
-          editUser={populateInputForEdit}
-          removeSelectionFromUsers={removeSelectionFromUsers}
-          addSelectionToUser={addSelectionToUser}
-          removeSelectionFromAllUsers={removeSelectionFromAllUsers}
-        />
-      )}
-    </>
+      </div>
+    </div>
   );
 };
 
