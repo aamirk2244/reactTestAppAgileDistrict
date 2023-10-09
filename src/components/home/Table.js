@@ -1,5 +1,5 @@
 import { setSelectionRange } from "@testing-library/user-event/dist/utils";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Table = (props) => {
   const data = props.users.data;
@@ -10,6 +10,12 @@ const Table = (props) => {
 
     data.find((user) => user.id === id).isSelected = true;
   };
+
+  useEffect(() => {
+    console.log("Table component Did mount tttttttt");
+    return () =>
+      console.log("Table component di Destroyed deletetd..................");
+  }, []);
 
   const findGreaterByAge = () => {
     const getUsers = data.filter((user) => user.isSelected === true);

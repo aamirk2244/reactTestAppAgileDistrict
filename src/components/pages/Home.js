@@ -17,6 +17,11 @@ const Home = () => {
   });
   // const users = { data: [{ id: 0, name: "test", age: "test age", isSelected: false }] };
 
+  useEffect(() => {
+    console.log("Home component did mount ................");
+    return () => console.log("Home coomponent did destroued --------------");
+  }, []);
+
   const updateUser = () => {
     const userToUpdate = isUpdate;
     const editingUser = users.data.find((user) => user.id === userToUpdate);
