@@ -1,15 +1,10 @@
-import { setSelectionRange } from "@testing-library/user-event/dist/utils";
-import { useEffect, useRef, useState } from "react";
-
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux/es/hooks/useSelector";
 const Table = (props) => {
-  const data = props.users.data;
   const [counter, setCounter] = useState(0);
+  const usersData = useSelector((state) => state.data);
+  const data = usersData.users;
   console.log("counter ... ", counter);
-  const handleExceedChecksLimit = (id) => {
-    props.removeSelectionFromUsers();
-
-    data.find((user) => user.id === id).isSelected = true;
-  };
 
   useEffect(() => {
     console.log("Table component Did mount tttttttt");
@@ -54,7 +49,7 @@ const Table = (props) => {
 
   const handledExceedChecksLimit = (e) => {
     if (counter === 2) {
-      props.removeSelectionFromAllUsers();
+      props.removeSelectionFromUsers(usersData.users);
       props.addSelectionToUser(findUserById(e.target.value));
       setCounter(1);
       return true;

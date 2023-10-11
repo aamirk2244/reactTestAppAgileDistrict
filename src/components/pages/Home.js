@@ -3,18 +3,22 @@ import "./Home.css";
 import Table from "../home/Table";
 import Input from "../Input";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useDispatch } from "react-redux";
+import { dataAction } from "../store/dataSlice";
 
 const Home = () => {
   const [name, setName] = useState("");
   const inputNameRef = useRef(null);
   const inputAgeRef = useRef(null);
-
+  const dispatch = useDispatch();
+  const usersData = useSelector((state) => state.data);
   const [isUpdate, setIsUpdate] = useState(0);
   const [age, setAge] = useState("");
   const [id, setId] = useState(1);
-  const [users, setUsers] = useState({
-    data: [],
-  });
+  // const [users, setUsers] = useState({
+  //   data: [],
+  // });
   // const users = { data: [{ id: 0, name: "test", age: "test age", isSelected: false }] };
 
   useEffect(() => {
@@ -24,28 +28,17 @@ const Home = () => {
 
   const updateUser = () => {
     const userToUpdate = isUpdate;
-    const editingUser = users.data.find((user) => user.id === userToUpdate);
-    editingUser.name = name;
-    editingUser.age = age;
-    setUsers({ ...users });
+    dispatch(dataAction.updateUser({ id: userToUpdate, name, age }));
     setIsUpdate(false);
     clearInputs();
   };
 
   const removeSelectionFromUsers = (userList) => {
-    userList.forEach((user) => {
-      user.isSelected = false;
-    });
-  };
-
-  const removeSelectionFromAllUsers = () => {
-    users.data.forEach((user) => {
-      user.isSelected = false;
-    });
+    dispatch(dataAction.removeSelectionFromUsers(userList));
   };
 
   const addSelectionToUser = (user) => {
-    user.isSelected = true;
+    dispatch(dataAction.selected(user));
     // setUsers({ ...users });
   };
 
@@ -68,7 +61,8 @@ const Home = () => {
       return;
     }
     setId(id + 1);
-    setUsers({ data: [...users.data, { id, name, age, isSelected: false }] });
+    dispatch(dataAction.addUser({ id, name, age, isSelected: false }));
+    // setUsers({ data: [...users.data, ] });
     clearInputs();
   };
 
@@ -84,20 +78,18 @@ const Home = () => {
 
   const removeUser = (e) => {
     const userId = parseInt(e.target.id);
-    const updatedUsers = users.data.filter((user) => user.id !== userId);
-    setUsers({ data: updatedUsers });
+    dispatch(dataAction.destroyUser({ id: userId }));
   };
 
   const populateInputForEdit = (e) => {
     const userId = parseInt(e.target.id);
 
-    const updateUser = users.data.find((user) => user.id === userId);
+    const updateUser = usersData.users.find((user) => user.id === userId);
     setName((prev) => updateUser.name);
 
     setAge((prev) => updateUser.age);
     setIsUpdate(userId);
   };
-
   return (
     <div className="my-home d-flex flex-column">
       <div className="myhome-card-section">
@@ -154,14 +146,12 @@ const Home = () => {
       </div>
       <div>
         <div className="home-table">
-          {users.data.length != 0 && (
+          {usersData.users.length !== 0 && (
             <Table
-              users={users}
               removeUser={removeUser}
               editUser={populateInputForEdit}
               removeSelectionFromUsers={removeSelectionFromUsers}
               addSelectionToUser={addSelectionToUser}
-              removeSelectionFromAllUsers={removeSelectionFromAllUsers}
             />
           )}
         </div>

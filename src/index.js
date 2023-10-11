@@ -6,7 +6,8 @@ import reportWebVitals from "./reportWebVitals";
 import ErrorBoundary from "./components/shared/error_boundary";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
+import { Provider } from "react-redux";
+import store from "./components/store/store";
 const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -17,7 +18,9 @@ root.render(
   <React.StrictMode>
     <ErrorBoundary onRecovery={reload}>
       <QueryClientProvider client={queryClient}>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </QueryClientProvider>
     </ErrorBoundary>
   </React.StrictMode>
