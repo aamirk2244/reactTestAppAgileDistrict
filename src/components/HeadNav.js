@@ -33,6 +33,11 @@ function HeadNav() {
               <Link className="nav-link active" to="/button-example">
                 Button Section Example
               </Link>
+
+              <Link className="nav-link active" to="/react-query-example">
+                Query Example
+              </Link>
+
               <a
                 className="nav-link disabled"
                 href="#"
